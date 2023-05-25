@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "info/head.html" %}
+  <!-- <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tambahkan Data</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    {% load static %}
+    <link href="{% static 'stylecoba.css' %}" rel="stylesheet" />
+  </head>
+  <body> -->
+    <!-- NAVBAR -->
+
+    <!-- <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container-fluid px-5">
+        <a class="navbar-brand" href="#">
+          <img src="{% static 'logo_himatika.png' %}" alt="" width="50" height="50" class="d-inline-block" />
+          Database Himatika
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav px-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Tentang Himatika</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto p-2 px-5">
+            <li class="nav-item">
+              <a class="nav-link" href="#">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav> -->
+
+    <!-- END NAVBAR -->
+
+    <!-- FILTERING + SEARCH -->
+
+    <!-- END FILTERING + SEARCH -->
+
+    <!-- TABLE -->
+
+    <section class="content-header">
+      <h2>Dashboard</h2>
+    </section>
+    <section class="content">
+      <form action="{% url 'add_r' %}" method="post">
+        {% csrf_token %}
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <div class="form-group row">
+              <div class="col-md-6">
+                <h4>Tambahkan Data</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- INPUT FORM -->
+          <!-- is-invalid -->
+          <div class="box-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label for="nama">Nama Lengkap:</label>
+                  <input id="nama" class="form-control form-control-md mb-3" type="text" name="nama" required value="{% if nama %}{{nama}}{% endif %}"/>
+                  <label for="nim">NIM:</label>
+                  {% if nim_error %}
+                  <div class="invalid-feedback d-block">
+                    NIM sudah terdaftar, silahkan dicek kembali
+                  </div>
+                  {% endif %}
+                  <input id="nim" class="form-control form-control-md mb-3 {% if nim_error %}is-invalid{% endif %}" type="text" name="nim" required maxlength="20" minlength="10" value="{% if nim %}{{nim}}{% endif %}"/>
+                  <label for="hp">No. Hp:</label>
+                  <input id="hp" class="form-control form-control-md mb-3" type="text" name="hp" value="{% if hp %}{{hp}}{% endif %}"/>
+                  <label for="wa">No. WA:</label>
+                  <input id="wa" class="form-control form-control-md mb-3" type="text" name="wa" value="{% if wa %}{{wa}}{% endif %}" />
+                  <div class="row mb-3">
+                    <div class="col-md-3">
+                      <label for="prodi">Prodi:</label>
+                      <!-- <div class="invalid-feedback d-block">
+                        Pilih satu
+                      </div> -->
+                      {% if prodi_error %}
+                      <div class="invalid-feedback d-block">
+                        Pilih satu
+                      </div>
+                      {% endif %}
+                      <select id="prodi" class="form-select form-select-md {% if prodi_error %}is-invalid{% endif %}" aria-label="Default select example" name="prodi">
+                        {% if not prodi or prodi == -1 %}
+                        <option value="" hidden selected>--/--</option>
+                        {% endif %}
+                        {% for i in list_prodi %}
+                        {% if prodi == i.id %}
+                        <option value="{{ i.id }}" selected>{{ i.nama_prodi }}</option>
+                        {% else %}
+                        <option value="{{ i.id }}">{{ i.nama_prodi }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="angkatan">Angkatan:</label>
+                      {% if angkatan_error %}
+                      <div class="invalid-feedback d-block">
+                        Pilih satu
+                      </div>
+                      {% endif %}
+                      <select id="angkatan" class="form-select form-select-md {% if angkatan_error %}is-invalid{% endif %}" aria-label="Default select example" name="angkatan">
+                        {% if not angkatan or angkatan == -1 %}
+                        <option value="" hidden selected>--/--</option>
+                        {% endif %}
+                        {% for i in list_angkatan %}
+                        {% if angkatan == i.id %}
+                        <option value="{{ i.id }}" selected>{{ i.tahun }}</option>
+                        {% else %}
+                        <option value="{{ i.id }}">{{ i.tahun }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="anggota">Status Anggota:</label>
+                      {% if anggota_error %}
+                      <div class="invalid-feedback d-block">
+                        Pilih satu
+                      </div>
+                      {% endif %}
+                      <select id="anggota" class="form-select form-select-md {% if anggota_error %}is-invalid{% endif %}" aria-label="Default select example" name="anggota">
+                        {% if not anggota or anggota == -1 %}
+                        <option value="" hidden selected>--/--</option>
+                        {% endif %}
+                        {% for i in list_status %}
+                        {% if anggota == i.id %}
+                        <option value="{{ i.id }}" selected>{{ i.nama_status }}</option>
+                        {% else %}
+                        <option value="{{ i.id }}">{{ i.nama_status }}</option>
+                        {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label for="goldar">Golongan Darah:</label>
+                      {% if goldar_error %}
+                      <div class="invalid-feedback d-block">
+                        Pilih satu
+                      </div>
+                      {% endif %}
+                      <select id="goldar" class="form-select form-select-md {% if goldar_error %}is-invalid{% endif %}" aria-label="Default select example" name="goldar">
+                        {% if not goldar or goldar == "-1" %}
+                        <option value="" hidden selected>--/--</option>
+                        {% endif %}
+                        {% for i in list_goldar %}
+                        {% if goldar == i %}
+                        <option value="{{i}}" selected>{{i}}</option>
+                        {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endif %}
+                        {% endfor %}
+                        <!-- <option value="AB">AB</option>
+                        <option value="B">B</option>
+                        <option value="O">O</option> -->
+                      </select>
+                    </div>
+                  </div>
+                  <label for="email">Email:</label>
+                  <input id="email" class="form-control form-control-md mb-3" type="email" name="email" required value="{% if email %}{{email}}{% endif %}"/>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="t_lahir">Tempat Lahir:</label>
+                      <input id="t_lahir" class="form-control form-control-md mb-3" type="text" name="t_lahir" value="{% if t_lahir %}{{t_lahir}}{% endif %}"/>
+                    </div>
+                    <div class="col-md-6">
+                      <label for="tgl_lahir">Tanggal Lahir:</label>
+                      <input id="tgl_lahir" class="form-control form-control-md mb-3" type="date" name="tgl_lahir" required value="{% if tgl_lahir %}{{tgl_lahir}}{% endif %}"/>
+                    </div>
+                  </div>
+
+                  <label for="daerah">Asal Daerah:</label>
+                  <input id="daerah" class="form-control form-control-md mb-3" type="text" name="daerah" value="{% if daerah %}{{daerah}}{% endif %}" />
+                  <label for="mks_ad">Alamat Makassar:</label>
+                  <input id="mks_ad" class="form-control form-control-md mb-3" type="text" name="mks_ad" value="{% if alamat_mks %}{{alamat_mks}}{% endif %}"/>
+                  <label for="dms_ad">Alamat Domisili:</label>
+                  <input id="dms_ad" class="form-control form-control-md mb-3" type="text" name="dms_ad" value="{% if alamat_dms %}{{alamat_dms}}{% endif %}"/>
+                  <label for="minat">Minat:</label>
+                  <input id="minat" class="form-control form-control-md mb-3" type="text" name="minat" value="{% if minat %}{{minat}}{% endif %}"/>
+                  <label for="bakat">Bakat:</label>
+                  <input id="bakat" class="form-control form-control-md mb-3" type="text" name="bakat" value="{% if bakat %}{{bakat}}{% endif %}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- END INPUT FORM -->
+
+          <div class="box-footer">
+            <button class="btn btn-primary" type="submit">Tambahkan</button>
+          </div>
+        </div>
+      </div>
+    </form> 
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  </body>
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>
+</html>

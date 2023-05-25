@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>HTML Table</h2>
+ <!-- Load icon library -->
+
+ <!-- The form -->
+ <form action="{% url 'search' %}" method="get">
+   <input type="text" placeholder="Search.." name="search">
+   <label for="angkatan">Angkatan:</label>
+      <select name="angkatan" id="angkatan">
+        <option value="" hidden selected>Angkatan</option>
+        {% for i in list_angkatan %}
+        <option value="{{ i.id }}">{{ i.tahun }}</option>
+        {% endfor %}
+      </select>
+    <label for="prodi">Prodi:</label>
+      <select name="prodi" id="prodi">
+        <option value="" hidden selected>Pilih prodi</option>
+        {% for i in list_prodi %}
+        <option value="{{ i.id }}">{{ i.nama_prodi }}</option>
+        {% endfor %}
+      </select>
+   <button type="submit"><i class="fa fa-search"></i></button>
+ </form> 
+
+  
+  <br><br>
+  <button><a href="/info/add">Add member</a></button>
+</form>
+
+
+<table>
+  <tr>
+    <th>Nama Anggota</th>
+    <th>Jurusan</th>
+    <th>Angkatan</th>
+    <th>Status</th>
+  </tr>
+  {% for i in list_anggota %}
+  <tr>
+      <td>{{ i.nama }}</td>
+      <td>{{ i.prodi.nama_prodi }}</td>
+      <td>{{ i.angkatan.tahun }}</td>
+      <td>{{ i.keterangan.nama_status }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+</html>
+

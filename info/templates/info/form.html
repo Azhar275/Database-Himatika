@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h2>HTML Forms</h2>
+
+<form action="{% url 'add_r' %}" method="post">
+  {% csrf_token %}
+  <label for="nama">Nama:</label><br>
+  <input type="text" id="nama" name="nama"><br>
+  <label for="nim">NIM:</label><br>
+  <input type="text" id="nim" name="nim"><br><br>
+  <label for="hp">No. Hp:</label><br>
+  <input type="text" id="hp" name="hp"><br><br>
+  <label for="wa">No. Wa:</label><br>
+  <input type="text" id="wa" name="wa"><br><br>
+  <label for="prodi">Pilih prodi:</label>
+  <select name="prodi" id="prodi">
+    <option value="" hidden selected>Pilih salah satu</option>
+    {% for i in list_prodi %}
+    <option value="{{ i.id }}">{{ i.nama_prodi }}</option>
+    {% endfor %}
+  </select><br><br>
+  <label for="email">email :</label><br>
+  <input type="text" id="email" name="email"><br><br>
+  <label for="goldar">Pilih golongan darah:</label>
+  <select name="goldar" id="goldar">
+    <option value="" hidden selected>Pilih salah satu</option>
+    <option value="A">A</option>
+    <option value="AB">AB</option>
+    <option value="B">B</option>
+    <option value="O">O</option>
+  </select><br><br>
+  <label for="t_lahir">Tempat lahir:</label><br>
+  <input type="text" id="t_lahir" name="t_lahir"><br><br>
+  <label for="tgl_lahir">Tanggal lahir:</label><br>
+  <input type="date" id="tgl_lahir" name="tgl_lahir"><br><br>
+  <label for="daerah">Asal daerah:</label><br>
+  <input type="text" id="daerah" name="daerah"><br><br>
+  <label for="mks_ad">Alamat makassar:</label><br>
+  <input type="text" id="mks_ad" name="mks_ad"><br><br>
+  <label for="dms_ad">Alamat domisili :</label><br>
+  <input type="text" id="dms_ad" name="dms_ad"><br><br>
+  <label for="angkatan">Angkatan :</label>
+  <select name="angkatan" id="angkatan">
+    <option value="" hidden selected>Pilih salah satu</option>
+    {% for i in list_angkatan %}
+    <option value="{{ i.id }}">{{ i.tahun }}</option>
+    {% endfor %}
+  </select><br><br>
+  <label for="anggota">Status anggota:</label>
+  <select name="anggota" id="anggota">
+    <option value="" hidden selected>Pilih salah satu</option>
+    {% for i in list_status %}
+    <option value="{{ i.id }}">{{ i.nama_status }}</option>
+    {% endfor %}
+  </select><br><br>
+  <label for="minat">Minat:</label><br>
+  <input type="text" id="minat" name="minat"><br><br>
+  <label for="bakat">Bakat:</label><br>
+  <input type="text" id="bakat" name="bakat"><br><br>
+  <button type="submit">Submit</button>
+</form> 
+
+
+</body>
+</html>

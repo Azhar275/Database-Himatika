@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  {% include "info/head.html" %}
+  <!-- <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Database</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    {% load static %}
+    <link href="{% static 'stylecoba.css' %}" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.min.css" />
+  </head>
+  <body> -->
+    <!-- NAVBAR -->
+
+    <!-- <nav class="navbar navbar-expand-lg sticky-top">
+      <div class="container-fluid px-5">
+        <a class="navbar-brand" href="/">
+          <img src="{% static 'logo_himatika.png' %}" alt="" width="50" height="50" class="d-inline-block" />
+          Database Himatika
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav px-3">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Tentang Himatika</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto p-2 px-5">
+            <li class="nav-item">
+              <a class="nav-link" href="/admin">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav> -->
+
+    <!-- END NAVBAR -->
+
+    <section class="content-header">
+      <h2>Dashboard</h2>
+    </section>
+    <section class="content">
+      <div class="col-xs-12">
+        <div class="box">
+          <div class="box-header">
+            <div class="form-group row">
+              <div class="col-md-6">
+                <h4>Anggota Himatika</h4>
+              </div>
+              <div class="col-md-6">
+                <a href="/info/add"><button type="button" class="float-end btn btn-primary btn-sm" >Tambahkan Data</button></a>
+              </div>
+            </div>
+          </div>
+          <div class="box-body">
+            <form action="{% url 'search' %}" method="get">
+            <div class="row">
+              <div class="col-sm-3 form-group">
+                <select class="form-select form-select-sm" aria-label="Default select example" name="angkatan" id="angkatan">
+                  <option value="" hidden selected>Angkatan</option>
+                  {% for i in list_angkatan %}
+                  <option value="{{ i.id }}">{{ i.tahun }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-3 form-group">
+                <select class="form-select form-select-sm" aria-label="Default select example" name="prodi" id="prodi">
+                  <option value="" hidden selected>Prodi</option>
+                  {% for i in list_prodi %}
+                  <option value="{{ i.id }}">{{ i.nama_prodi }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="col-sm-3 ms-auto">
+                <div class="form-group">
+                  <div class="input-group flex-nowrap rounded">
+                    <input type="search" class="form-control form-control-sm rounded" placeholder="Search" aria-label="search" aria-describedby="search-addon" name="search"/>
+                    <button type="submit" class="input-group-text border-0" id="search-addon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form> 
+
+            <!-- TABLE -->
+            <div class="row">
+              <div class="mt-2 mb-lg-0 col-lg-12 mx-auto">
+                <table id="dtOrderExample" class="table table-bordered table-responsive-sm mt-3 p-4 " cellspacing="0">
+                  <thead class="thead-light">
+                    <tr>
+                      <th scope="col">Nama</th>
+                      <th scope="col">Prodi</th>
+                      <th scope="col">Angkatan</th>
+                      <th scope="col">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for i in list_anggota %}
+                        <tr>
+                            <td><a href="/detail/{{i.id}}" style="color: black;">{{ i.nama }}</a></td>
+                            <td>{{ i.prodi.nama_prodi }}</td>
+                            <td>{{ i.angkatan.tahun }}</td>
+                            <td>{{ i.keterangan.nama_status }}</td>
+                        </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <!-- END TABLE -->
+
+            <!-- PAGINATION -->
+            <!-- <div class="row">
+              <div class="col-sm-5">
+                <div class="table-info" id="info-data" role="status" aria-live="polite">Showing 1 to 5 of 5 entries</div>
+              </div>
+              <div class="col-sm-7">
+                <nav aria-label="Page navigation">
+                  <ul class="pagination justify-content-end">
+                    <li class="page-item disabled">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                      <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div> -->
+            <!-- END PAGINATION -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+      $(document).ready(function () {
+          $('#dtOrderExample').DataTable();
+      })
+      $('table').dataTable({searching: false, paging: true});
+      </script>
+  </body>
+</html>
